@@ -1,0 +1,58 @@
+version: '3.11'
+
+services:
+
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    hostname: '${DB_HOST}'
+
+  web:
+    container_name: rest
+    build:
+      context: ./
+      dockerfile: _docker/Dockerfile
+    command: bash -c "uvicorn src.main:app --port 8000 --host 127.0.0.1"
+    ports:
+      - "6000:6000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+
+  sensors:
+    build:
+      dockerfile: _docker/Dockerfile
+    restart: always
+    command: bash -c "python sensor/main.py"
+    volumes:
+      - ./src:/app
+    depends_on:
+      - db
+      - web
+    env_file:
+      - .env
+
+  manipulator:
+    build:
+      dockerfile: _docker/Dockerfile
+    restart: always
+    command: bash -c "python manipulator/main.py"
+    volumes:
+      - ./src:/app
+    depends_on:
+      - db
+      - web
+    env_file:
+      - .env

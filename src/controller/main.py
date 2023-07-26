@@ -1,8 +1,8 @@
 import datetime
-from controller.database import get_session
-from controller.manipulator import Manipulator
-from controller.schemas import ControllerSchema, ManipulatorSchema
-from controller.service import StatusService
+from database import get_session
+from manipulator import ManipulatorClient
+from schemas import ControllerSchema, ManipulatorSchema
+from service import StatusService
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, FastAPI
@@ -34,5 +34,5 @@ async def send_data(
     )
 
     await StatusService(session).post(result)
-    await Manipulator().send(result)
-    return {'status': True}
+    await ManipulatorClient().send(result)
+    return {'status': 'Ok'}
