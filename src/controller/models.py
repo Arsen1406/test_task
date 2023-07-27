@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
 
 
-class Status(DeclarativeBase):
+class Status(Base):
 
     __tablename__ = 'status'
 

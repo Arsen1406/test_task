@@ -1,6 +1,4 @@
-import socket
 from loguru import logger
-
 from settings import settings
 
 
@@ -10,6 +8,7 @@ class ManipulatorServer:
         self.port = settings.PORT_TCP
 
     def output(self):
+        import socket
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as connect:
             connect.bind((self.host, self.port))
             connect.listen()

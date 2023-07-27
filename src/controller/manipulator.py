@@ -1,6 +1,6 @@
 import socket
+from .settings import settings
 
-from settings import settings
 
 class ManipulatorClient:
     def __init__(self):

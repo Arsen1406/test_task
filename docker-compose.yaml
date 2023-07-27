@@ -22,13 +22,11 @@ services:
     build:
       context: ./
       dockerfile: _docker/Dockerfile
-    command: bash -c "uvicorn src.main:app --port 8000 --host 127.0.0.1"
+    command: bash -c "uvicorn src.controller.main:app --port 8000 --host 0.0.0.0"
     ports:
-      - "6000:6000"
+      - "8000:8000"
     depends_on:
       - db
-    env_file:
-      - .env
 
 
   sensors:

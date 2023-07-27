@@ -1,6 +1,6 @@
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import Status
+from .models import Status
 
 
 class StatusService:
