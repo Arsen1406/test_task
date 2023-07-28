@@ -1,11 +1,10 @@
 from loguru import logger
-from settings import settings
 
 
 class ManipulatorServer:
     def __init__(self):
-        self.host = settings.HOST_TCP
-        self.port = settings.PORT_TCP
+        self.host = '127.0.0.1'
+        self.port = 50000
 
     def output(self):
         import socket

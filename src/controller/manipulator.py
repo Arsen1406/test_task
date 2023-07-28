@@ -1,13 +1,12 @@
-import socket
-from .settings import settings
 
 
 class ManipulatorClient:
     def __init__(self):
-        self.host = settings.HOST_TCP
-        self.port = settings.PORT_TCP
+        self.host = '127.0.0.1'
+        self.port = 50000
 
     def send(self, result):
+        import socket
         result = f'{result.created_at},{result.status}'
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as connect:

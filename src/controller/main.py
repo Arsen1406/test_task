@@ -1,5 +1,4 @@
 import datetime
-
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, FastAPI
 from .database import get_session
@@ -16,7 +15,6 @@ async def send_data(
         end: datetime.datetime,
         session: AsyncSession = Depends(get_session),
 ):
-
     result = await StatusService(session).get(start, end)
     period_obj = [ManipulatorSchema(**obj) for obj in result]
     return period_obj
@@ -29,8 +27,10 @@ async def send_data(
 ):
     result = ManipulatorSchema(
         created_at=data.created_at,
-        status='up' if data.payload < 100 else 'down'
+        status='UP' if data.payload == 1 else 'DOWN'
     )
-    await StatusService(session).post(result)
-    await ManipulatorClient().send(result)
+
+    # await StatusService(session).post(result)
+    manipulator = ManipulatorClient()
+    manipulator.send(result)
     return {'status': 'Ok'}
